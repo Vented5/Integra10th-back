@@ -20,6 +20,7 @@ app.post('/scores', async (req, res) => {
 
 app.get('/scores', async (req, res) => {
     const scores = await prisma.highScore.findMany();
+    res.send(scores)
 })
 
 app.listen(port, () => {

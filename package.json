@@ -19,6 +19,7 @@
   "dependencies": {
     "@prisma/client": "^6.2.1",
     "express": "^4.21.2",
+    "mongodb": "^6.13.0",
     "prisma": "^6.2.1"
   }
 }
