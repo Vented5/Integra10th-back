@@ -8,11 +8,13 @@ const port = 3000
 app.use(express.json())
 
 app.post('/scores', async (req, res) => {
-    const { tag, score } = req.body
+    const { tag, score, character, weapon } = req.body
     const newScore = await prisma.highScore.create({
         data: {
             tag,
-            score
+            score,
+            character,
+            weapon
         }
     })
     res.json(newScore)
