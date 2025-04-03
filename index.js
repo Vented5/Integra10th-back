@@ -11,19 +11,38 @@ app.use(cors())
 
 app.post('/scores', async (req, res) => {
     const { tag, score, character, weapon } = req.body
-    const newScore = await prisma.highScore.create({
-        data: {
-            tag,
-            score,
-            character,
-            weapon
-        }
+    const existentScore = await prisma.highScore.findFirst({
+        where: { tag: tag }
     })
-    res.json(newScore)
+    if (existentScore) {
+        if(score > existentScore.score) {    // --- DATA UPDATE IF GREATER
+            await prisma.highScore.update({  
+                where: { tag: tag }, data: {
+                    score: score
+                }
+            })
+            res.json({message: "NEW HIGHSCORE!!!"})    
+         } else { res.json({message: "HIJO PONTE A ENTRENAAAR!!"}) }
+    }else {
+        const newScore = await prisma.highScore.create({
+            data: {
+                tag,
+                score,
+                character,
+                weapon
+            }
+        })
+        res.json(newScore, {message: "NEW HIGHSCORE!!!"})
+    }
+    
 })
 
 app.get('/scores', async (req, res) => {
-    const scores = await prisma.highScore.findMany();
+    const scores = await prisma.highScore.findMany({
+        orderBy: {
+            score: 'desc'
+        }
+    });
     res.send(scores)
 })
 
