@@ -32,7 +32,7 @@ app.post('/scores', async (req, res) => {
                 weapon
             }
         })
-        res.json(newScore, {message: "NEW HIGHSCORE!!!"})
+        res.json({ newScore: newScore, message: "NEW HIGHSCORE!!!"})
     }
     
 })
